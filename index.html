@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Draft Helper – pobierz</title>
+<meta name="description" content="Draft Helper – pomocnik wyboru bohatera w League of Legends. Dane z Lolalytics i OP.GG.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Saira+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #0C0A1D; --panel: #16122C; --panel2: #1D1838; --line: #2C2550; --text: #EDEAF8; --dim: #B9B3D6; --muted: #8C86AE;
+    --gold: #E8B64C; --vi: #8B6CFF; --tl: #2ED3C6; --ro: #F0587A; --bl: #4F8DFF;
+    --f-head: "Saira Condensed", "Segoe UI", sans-serif; --f-body: Inter, "Segoe UI", sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; color: var(--text); font: 15px/1.55 var(--f-body);
+    background: radial-gradient(900px 600px at 85% -10%, rgba(139, 108, 255, .16), transparent 60%),
+                radial-gradient(700px 500px at 0% 110%, rgba(46, 211, 198, .07), transparent 60%), var(--bg); }
+  main { max-width: 880px; margin: 0 auto; padding: 56px 24px 40px; }
+  .wm { font: 700 44px/1 var(--f-head); letter-spacing: .06em; color: var(--gold); margin: 0; }
+  .sub { color: var(--dim); font-size: 17px; margin: 10px 0 30px; max-width: 620px; }
+  .hero { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding: 26px 28px; border-radius: 16px;
+    background: linear-gradient(135deg, rgba(139, 108, 255, .14), rgba(46, 211, 198, .05)), var(--panel); border: 1px solid var(--line); }
+  .hero h2 { margin: 0 0 4px; font: 700 24px/1.1 var(--f-head); letter-spacing: .03em; }
+  .meta { color: var(--muted); font-size: 13.5px; }
+  .meta b { color: var(--dim); font-weight: 600; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 12px; text-decoration: none;
+    font: 700 19px/1 var(--f-head); letter-spacing: .06em; color: #17112E; background: var(--gold);
+    box-shadow: 0 8px 26px rgba(232, 182, 76, .28); transition: transform .12s, box-shadow .12s, filter .12s; white-space: nowrap; }
+  .btn:hover { transform: translateY(-1px); filter: brightness(1.06); box-shadow: 0 12px 30px rgba(232, 182, 76, .36); }
+  .btn:active { transform: translateY(0) scale(.98); }
+  .btn svg { width: 20px; height: 20px; }
+  .alt { display: block; margin-top: 8px; text-align: center; font-size: 12.5px; color: var(--muted); }
+  .alt a { color: var(--dim); }
+  h3 { font: 700 15px/1.2 var(--f-head); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 38px 0 12px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0; list-style: none; counter-reset: s; }
+  .steps li { padding: 16px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); counter-increment: s; color: var(--dim); font-size: 14px; }
+  .steps li::before { content: counter(s); display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; margin-bottom: 8px;
+    background: rgba(139, 108, 255, .18); color: var(--vi); font: 700 15px/1 var(--f-head); }
+  .steps b { color: var(--text); font-weight: 600; display: block; margin-bottom: 2px; }
+  .note { margin-top: 12px; padding: 12px 14px; border-radius: 10px; border-left: 3px solid var(--gold); background: rgba(232, 182, 76, .07); color: var(--dim); font-size: 13.5px; }
+  .feat { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .feat div { padding: 13px 15px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--k); font-size: 14px; color: var(--dim); }
+  .feat b { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
+  .notes { padding: 14px 16px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); color: var(--dim); font-size: 14px; white-space: pre-line; }
+  footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+  @media (max-width: 720px) { .hero { grid-template-columns: 1fr; } .steps, .feat { grid-template-columns: 1fr; } .wm { font-size: 36px; } }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1 class="wm">DRAFT HELPER</h1>
+  <p class="sub">Pomocnik wyboru bohatera w League of Legends: podpowiedzi w czasie wyboru, kontry, buildy i runy z Lolalytics, Twój profil i mecze z OP.GG.</p>
+
+  <section class="hero">
+    <div>
+      <h2>Program dla Windows</h2>
+      <div class="meta" id="meta">Najnowsza wersja · instalator po polsku</div>
+    </div>
+    <div>
+      <a class="btn" id="dl" href="https://github.com/yoruclone11/Draft-Helper-Releases/releases/latest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+        Pobierz instalator
+      </a>
+      <span class="alt">Windows 10 / 11 · <a href="https://github.com/yoruclone11/Draft-Helper-Releases/releases">wszystkie wersje</a></span>
+    </div>
+  </section>
+
+  <h3>Instalacja</h3>
+  <ol class="steps">
+    <li><b>Pobierz</b>Kliknij „Pobierz instalator” i poczekaj, aż plik się pobierze (ok. 120 MB).</li>
+    <li><b>Uruchom</b>Otwórz pobrany plik. Jeśli Windows pokaże „System Windows ochronił ten komputer”, kliknij „Więcej informacji” → „Uruchom mimo to”.</li>
+    <li><b>Zainstaluj</b>Wybierz folder i skróty, kliknij „Zakończ”. Gotowe – program sam się uruchomi.</li>
+  </ol>
+  <div class="note">Aktualizacje przychodzą same: po starcie program pokaże „Dostępna aktualizacja”, a w Ustawieniach zainstalujesz ją jednym kliknięciem. Ustawienia i dane zostają.</div>
+
+  <h3>Co potrafi</h3>
+  <div class="feat">
+    <div style="--k: var(--ro)"><b>Wybór bohatera</b>Polecane z powodami i minusami, kontry na przeciwnika z linii, ocena draftu na żywo.</div>
+    <div style="--k: var(--gold)"><b>Buildy i runy</b>Z Lolalytics: najczęstszy albo najwyższy winrate, ogólny albo pod przeciwnika.</div>
+    <div style="--k: var(--bl)"><b>Profil i mecze</b>Z OP.GG: forma, bohaterowie, pory dnia i dni tygodnia, historia z OP Score.</div>
+    <div style="--k: var(--vi)"><b>Po meczu</b>Matchupy linii, kto lepiej zagrał i kto wygrał linię na swoją kontrę.</div>
+  </div>
+
+  <div id="whatsnew" hidden>
+    <h3 id="wn-title">Co nowego</h3>
+    <div class="notes" id="wn"></div>
+  </div>
+
+  <footer>Prywatny projekt. Program działa w trybie „tylko podgląd” – niczego nie zmienia w kliencie gry.<br>
+  Draft Helper nie jest wspierany przez Riot Games i nie odzwierciedla poglądów ani opinii Riot Games ani nikogo oficjalnie zaangażowanego w produkcję lub zarządzanie League of Legends. League of Legends i Riot Games są znakami towarowymi lub zastrzeżonymi znakami towarowymi Riot Games, Inc.</footer>
+</main>
+<script>
+  // Najnowsze wydanie z publicznego repo – przycisk prowadzi prosto do pliku instalatora.
+  (async () => {
+    try {
+      const r = await fetch('https://api.github.com/repos/yoruclone11/Draft-Helper-Releases/releases/latest', { headers: { Accept: 'application/vnd.github+json' } });
+      if (!r.ok) return;
+      const rel = await r.json();
+      const exe = (rel.assets || []).find(a => /\.exe$/i.test(a.name));
+      const ver = String(rel.tag_name || '').replace(/^v/, '');
+      const date = rel.published_at ? new Date(rel.published_at).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+      if (exe) document.getElementById('dl').href = exe.browser_download_url;
+      document.getElementById('meta').innerHTML = `Wersja <b>${ver}</b>${date ? ' · ' + date : ''}${exe ? ' · ' + Math.round(exe.size / 1048576) + ' MB' : ''} · instalator po polsku`;
+      const body = String(rel.body || '').trim();
+      if (body.length > 140) {
+        document.getElementById('wn-title').textContent = 'Co nowego w ' + ver;
+        document.getElementById('wn').textContent = body;
+        document.getElementById('whatsnew').hidden = false;
+      }
+    } catch (e) { /* zostaje link do strony wydań */ }
+  })();
+</script>
+</body>
+</html>
